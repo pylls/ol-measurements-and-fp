@@ -1,0 +1,1347 @@
+$ cat run.sh
+echo "basic autoloc"
+./binary-classify.py autoloc-100.npz clearnet-ol-0.npz
+./binary-classify.py autoloc-100.npz onion-ol-0.npz
+
+echo "curl"
+./binary-classify.py curl-only-general.npz clearnet-only-general.npz
+
+echo "open world"
+./binary-classify.py autoloc-100.npz clearnet-ol-0.npz --open-world 0.8
+./binary-classify.py autoloc-100.npz onion-ol-0.npz --open-world 0.8
+./binary-classify.py autoloc-100.npz clearnet-ol-0.npz --open-world 0.5
+./binary-classify.py autoloc-100.npz onion-ol-0.npz --open-world 0.5
+./binary-classify.py autoloc-100.npz clearnet-ol-0.npz --open-world 0.3
+./binary-classify.py autoloc-100.npz onion-ol-0.npz --open-world 0.3
+
+echo "overlap"
+./binary-classify.py autoloc-100.npz negative-ol-100.npz
+
+echo "positive class limit"
+./binary-classify.py autoloc-75.npz clearnet-ol-0.npz
+./binary-classify.py autoloc-50.npz clearnet-ol-0.npz
+./binary-classify.py autoloc-35.npz clearnet-ol-0.npz
+./binary-classify.py autoloc-30.npz clearnet-ol-0.npz
+./binary-classify.py autoloc-75.npz onion-ol-0.npz
+./binary-classify.py autoloc-50.npz onion-ol-0.npz
+./binary-classify.py autoloc-35.npz onion-ol-0.npz
+./binary-classify.py autoloc-30.npz onion-ol-0.npz
+
+echo "circuit fingerprinting"
+./binary-classify.py clearnet-only-general.npz clearnet-no-general.npz -l 512
+./binary-classify.py onion-only-hsdir.npz onion-no-hsdir.npz -l 512
+./binary-classify.py onion-only-intro.npz onion-no-intro.npz -l 512
+./binary-classify.py onion-only-rend.npz onion-no-rend.npz -l 512
+
+$ bash run.sh
+basic autoloc
+00:41:47 loading datasets done, 18535 samples, 4392 from autoloc-100.npz, 14143 from clearnet-ol-0.npz
+00:41:47 baseline accuracy 0.7630
+00:41:47 using DF with 5000 cells
+00:41:47 training with 200 epochs, batch size 128, patience 10
+00:41:47 using NVIDIA GeForce RTX 3090
+00:41:47 we do 10-fold cross validation with a 8:1:1 split
+00:41:47 running fold 0...
+00:41:47 using closed world mode, stratified by label
+00:41:47 train 14827, valid 1853, test 1855
+        early stopping, patience 10 reached
+00:43:44 fold fpr 0.0022, tpr 1.0000, fnr 0.0000, tnr 0.9978
+00:43:44 running fold 1...
+00:43:44 using closed world mode, stratified by label
+00:43:44 train 14827, valid 1853, test 1855
+        early stopping, patience 10 reached
+00:45:23 fold fpr 0.0007, tpr 1.0000, fnr 0.0000, tnr 0.9993
+00:45:23 running fold 2...
+00:45:23 using closed world mode, stratified by label
+00:45:23 train 14827, valid 1853, test 1855
+        early stopping, patience 10 reached
+00:47:12 fold fpr 0.0007, tpr 0.9977, fnr 0.0023, tnr 0.9993
+00:47:12 running fold 3...
+00:47:12 using closed world mode, stratified by label
+00:47:12 train 14827, valid 1853, test 1855
+        early stopping, patience 10 reached
+00:48:31 fold fpr 0.0000, tpr 0.9977, fnr 0.0023, tnr 1.0000
+00:48:31 running fold 4...
+00:48:31 using closed world mode, stratified by label
+00:48:31 train 14827, valid 1853, test 1855
+        early stopping, patience 10 reached
+00:49:59 fold fpr 0.0022, tpr 1.0000, fnr 0.0000, tnr 0.9978
+00:49:59 running fold 5...
+00:49:59 using closed world mode, stratified by label
+00:49:59 train 14827, valid 1853, test 1855
+        early stopping, patience 10 reached
+00:51:01 fold fpr 0.0022, tpr 1.0000, fnr 0.0000, tnr 0.9978
+00:51:01 running fold 6...
+00:51:01 using closed world mode, stratified by label
+00:51:01 train 14827, valid 1853, test 1855
+        early stopping, patience 10 reached
+00:52:12 fold fpr 0.0015, tpr 1.0000, fnr 0.0000, tnr 0.9985
+00:52:12 running fold 7...
+00:52:12 using closed world mode, stratified by label
+00:52:12 train 14827, valid 1853, test 1855
+        early stopping, patience 10 reached
+00:54:21 fold fpr 0.0030, tpr 1.0000, fnr 0.0000, tnr 0.9970
+00:54:21 running fold 8...
+00:54:21 using closed world mode, stratified by label
+00:54:21 train 14827, valid 1853, test 1855
+        early stopping, patience 10 reached
+00:55:36 fold fpr 0.0052, tpr 1.0000, fnr 0.0000, tnr 0.9948
+00:55:36 running fold 9...
+00:55:36 using closed world mode, stratified by label
+00:55:36 train 14827, valid 1853, test 1855
+        early stopping, patience 10 reached
+00:57:09 fold fpr 0.0000, tpr 0.9977, fnr 0.0023, tnr 1.0000
+00:57:09 done, 10-fold cross validation results
+00:57:09 accuracy mean: 0.9985, std: 0.0010
+00:57:09 fpr mean: 0.0018, std: 0.0015
+00:57:12 loading datasets done, 9077 samples, 4392 from autoloc-100.npz, 4685 from onion-ol-0.npz
+00:57:12 baseline accuracy 0.5161
+00:57:12 using DF with 5000 cells
+00:57:12 training with 200 epochs, batch size 128, patience 10
+00:57:12 using NVIDIA GeForce RTX 3090
+00:57:12 we do 10-fold cross validation with a 8:1:1 split
+00:57:12 running fold 0...
+00:57:12 using closed world mode, stratified by label
+00:57:12 train 7261, valid 907, test 909
+        early stopping, patience 10 reached
+00:58:03 fold fpr 0.0241, tpr 0.9932, fnr 0.0068, tnr 0.9759
+00:58:03 running fold 1...
+00:58:03 using closed world mode, stratified by label
+00:58:03 train 7261, valid 907, test 909
+        early stopping, patience 10 reached
+00:59:08 fold fpr 0.0154, tpr 0.9932, fnr 0.0068, tnr 0.9846
+00:59:08 running fold 2...
+00:59:08 using closed world mode, stratified by label
+00:59:08 train 7261, valid 907, test 909
+        early stopping, patience 10 reached
+01:00:13 fold fpr 0.0022, tpr 0.9909, fnr 0.0091, tnr 0.9978
+01:00:13 running fold 3...
+01:00:13 using closed world mode, stratified by label
+01:00:13 train 7261, valid 907, test 909
+        early stopping, patience 10 reached
+01:01:36 fold fpr 0.0044, tpr 1.0000, fnr 0.0000, tnr 0.9956
+01:01:36 running fold 4...
+01:01:36 using closed world mode, stratified by label
+01:01:36 train 7261, valid 907, test 909
+        early stopping, patience 10 reached
+01:02:30 fold fpr 0.0132, tpr 0.9864, fnr 0.0136, tnr 0.9868
+01:02:30 running fold 5...
+01:02:30 using closed world mode, stratified by label
+01:02:30 train 7261, valid 907, test 909
+        early stopping, patience 10 reached
+01:03:42 fold fpr 0.0154, tpr 0.9955, fnr 0.0045, tnr 0.9846
+01:03:42 running fold 6...
+01:03:42 using closed world mode, stratified by label
+01:03:42 train 7261, valid 907, test 909
+        early stopping, patience 10 reached
+01:05:08 fold fpr 0.0022, tpr 0.9818, fnr 0.0182, tnr 0.9978
+01:05:08 running fold 7...
+01:05:08 using closed world mode, stratified by label
+01:05:08 train 7261, valid 907, test 909
+        early stopping, patience 10 reached
+01:05:56 fold fpr 0.0241, tpr 0.9955, fnr 0.0045, tnr 0.9759
+01:05:56 running fold 8...
+01:05:56 using closed world mode, stratified by label
+01:05:56 train 7261, valid 907, test 909
+        early stopping, patience 10 reached
+01:07:21 fold fpr 0.0154, tpr 0.9909, fnr 0.0091, tnr 0.9846
+01:07:21 running fold 9...
+01:07:21 using closed world mode, stratified by label
+01:07:21 train 7261, valid 907, test 909
+        early stopping, patience 10 reached
+01:08:24 fold fpr 0.0110, tpr 0.9977, fnr 0.0023, tnr 0.9890
+01:08:24 done, 10-fold cross validation results
+01:08:24 accuracy mean: 0.9898, std: 0.0040
+01:08:24 fpr mean: 0.0127, std: 0.0076
+curl
+01:08:27 loading datasets done, 23788 samples, 1993 from curl-only-general.npz, 21795 from clearnet-only-general.npz
+01:08:27 baseline accuracy 0.9162
+01:08:27 using DF with 5000 cells
+01:08:27 training with 200 epochs, batch size 128, patience 10
+01:08:27 using NVIDIA GeForce RTX 3090
+01:08:27 we do 10-fold cross validation with a 8:1:1 split
+01:08:27 running fold 0...
+01:08:27 using closed world mode, stratified by label
+01:08:27 train 19030, valid 2378, test 2380
+        early stopping, patience 10 reached
+01:10:25 fold fpr 0.0000, tpr 1.0000, fnr 0.0000, tnr 1.0000
+01:10:25 running fold 1...
+01:10:25 using closed world mode, stratified by label
+01:10:25 train 19030, valid 2378, test 2380
+        early stopping, patience 10 reached
+01:13:01 fold fpr 0.0000, tpr 1.0000, fnr 0.0000, tnr 1.0000
+01:13:01 running fold 2...
+01:13:01 using closed world mode, stratified by label
+01:13:01 train 19030, valid 2378, test 2380
+        early stopping, patience 10 reached
+01:14:15 fold fpr 0.0000, tpr 1.0000, fnr 0.0000, tnr 1.0000
+01:14:15 running fold 3...
+01:14:15 using closed world mode, stratified by label
+01:14:15 train 19030, valid 2378, test 2380
+        early stopping, patience 10 reached
+01:15:21 fold fpr 0.0005, tpr 1.0000, fnr 0.0000, tnr 0.9995
+01:15:21 running fold 4...
+01:15:21 using closed world mode, stratified by label
+01:15:21 train 19030, valid 2378, test 2380
+        early stopping, patience 10 reached
+01:17:35 fold fpr 0.0000, tpr 1.0000, fnr 0.0000, tnr 1.0000
+01:17:35 running fold 5...
+01:17:35 using closed world mode, stratified by label
+01:17:35 train 19030, valid 2378, test 2380
+        early stopping, patience 10 reached
+01:19:16 fold fpr 0.0000, tpr 1.0000, fnr 0.0000, tnr 1.0000
+01:19:16 running fold 6...
+01:19:16 using closed world mode, stratified by label
+01:19:16 train 19030, valid 2378, test 2380
+        early stopping, patience 10 reached
+01:21:27 fold fpr 0.0000, tpr 1.0000, fnr 0.0000, tnr 1.0000
+01:21:27 running fold 7...
+01:21:27 using closed world mode, stratified by label
+01:21:27 train 19030, valid 2378, test 2380
+        early stopping, patience 10 reached
+01:23:32 fold fpr 0.0000, tpr 1.0000, fnr 0.0000, tnr 1.0000
+01:23:32 running fold 8...
+01:23:32 using closed world mode, stratified by label
+01:23:32 train 19030, valid 2378, test 2380
+        early stopping, patience 10 reached
+01:27:28 fold fpr 0.0000, tpr 0.9900, fnr 0.0100, tnr 1.0000
+01:27:28 running fold 9...
+01:27:28 using closed world mode, stratified by label
+01:27:28 train 19030, valid 2378, test 2380
+        early stopping, patience 10 reached
+01:29:24 fold fpr 0.0000, tpr 0.9950, fnr 0.0050, tnr 1.0000
+01:29:24 done, 10-fold cross validation results
+01:29:24 accuracy mean: 0.9998, std: 0.0003
+01:29:24 fpr mean: 0.0000, std: 0.0001
+open world
+01:29:28 loading datasets done, 18535 samples, 4392 from autoloc-100.npz, 14143 from clearnet-ol-0.npz
+01:29:28 baseline accuracy 0.7630
+01:29:28 using DF with 5000 cells
+01:29:28 'OPEN WORLD' MODE: splitting by tag, training probability 0.8
+01:29:28 training with 200 epochs, batch size 128, patience 10
+01:29:28 using NVIDIA GeForce RTX 3090
+01:29:28 we do 10-fold cross validation with a 8:1:1 split
+01:29:28 running fold 0...
+01:29:28 using open world mode, stratified by tag
+01:29:30 train 15082, valid 0, test 3453
+        early stopping, patience 10 reached
+01:32:10 fold fpr 0.0024, tpr 0.9987, fnr 0.0013, tnr 0.9976
+01:32:10 running fold 1...
+01:32:10 using open world mode, stratified by tag
+01:32:12 train 14822, valid 0, test 3713
+        early stopping, patience 10 reached
+01:34:00 fold fpr 0.0021, tpr 0.9922, fnr 0.0078, tnr 0.9979
+01:34:00 running fold 2...
+01:34:00 using open world mode, stratified by tag
+01:34:02 train 14678, valid 0, test 3857
+        early stopping, patience 10 reached
+01:35:35 fold fpr 0.0010, tpr 0.9989, fnr 0.0011, tnr 0.9990
+01:35:35 running fold 3...
+01:35:35 using open world mode, stratified by tag
+01:35:36 train 14691, valid 0, test 3844
+        early stopping, patience 10 reached
+01:37:07 fold fpr 0.0014, tpr 1.0000, fnr 0.0000, tnr 0.9986
+01:37:07 running fold 4...
+01:37:07 using open world mode, stratified by tag
+01:37:09 train 14570, valid 0, test 3965
+        early stopping, patience 10 reached
+01:38:43 fold fpr 0.0014, tpr 0.9977, fnr 0.0023, tnr 0.9986
+01:38:43 running fold 5...
+01:38:43 using open world mode, stratified by tag
+01:38:45 train 14932, valid 0, test 3603
+        early stopping, patience 10 reached
+01:41:04 fold fpr 0.0029, tpr 1.0000, fnr 0.0000, tnr 0.9971
+01:41:04 running fold 6...
+01:41:04 using open world mode, stratified by tag
+01:41:06 train 15154, valid 0, test 3381
+        early stopping, patience 10 reached
+01:43:41 fold fpr 0.0008, tpr 0.9793, fnr 0.0207, tnr 0.9992
+01:43:41 running fold 7...
+01:43:41 using open world mode, stratified by tag
+01:43:42 train 14899, valid 0, test 3636
+        early stopping, patience 10 reached
+01:45:34 fold fpr 0.0037, tpr 0.9965, fnr 0.0035, tnr 0.9963
+01:45:34 running fold 8...
+01:45:34 using open world mode, stratified by tag
+01:45:35 train 14962, valid 0, test 3573
+        early stopping, patience 10 reached
+01:47:30 fold fpr 0.0034, tpr 0.9964, fnr 0.0036, tnr 0.9966
+01:47:30 running fold 9...
+01:47:30 using open world mode, stratified by tag
+01:47:32 train 15066, valid 0, test 3469
+        early stopping, patience 10 reached
+01:49:30 fold fpr 0.0041, tpr 0.9974, fnr 0.0026, tnr 0.9959
+01:49:30 done, 10-fold cross validation results
+01:49:30 accuracy mean: 0.9972, std: 0.0015
+01:49:30 fpr mean: 0.0023, std: 0.0011
+01:49:33 loading datasets done, 9077 samples, 4392 from autoloc-100.npz, 4685 from onion-ol-0.npz
+01:49:33 baseline accuracy 0.5161
+01:49:33 using DF with 5000 cells
+01:49:33 'OPEN WORLD' MODE: splitting by tag, training probability 0.8
+01:49:33 training with 200 epochs, batch size 128, patience 10
+01:49:33 using NVIDIA GeForce RTX 3090
+01:49:33 we do 10-fold cross validation with a 8:1:1 split
+01:49:33 running fold 0...
+01:49:33 using open world mode, stratified by tag
+01:49:34 train 7333, valid 0, test 1744
+        early stopping, patience 10 reached
+01:50:34 fold fpr 0.0265, tpr 0.9723, fnr 0.0277, tnr 0.9735
+01:50:34 running fold 1...
+01:50:34 using open world mode, stratified by tag
+01:50:35 train 7154, valid 0, test 1923
+        early stopping, patience 10 reached
+01:51:49 fold fpr 0.0374, tpr 0.9906, fnr 0.0094, tnr 0.9626
+01:51:49 running fold 2...
+01:51:49 using open world mode, stratified by tag
+01:51:50 train 7216, valid 0, test 1861
+        early stopping, patience 10 reached
+01:52:42 fold fpr 0.0538, tpr 0.9964, fnr 0.0036, tnr 0.9462
+01:52:42 running fold 3...
+01:52:42 using open world mode, stratified by tag
+01:52:42 train 7427, valid 0, test 1650
+        early stopping, patience 10 reached
+01:53:40 fold fpr 0.0322, tpr 0.9816, fnr 0.0184, tnr 0.9678
+01:53:40 running fold 4...
+01:53:40 using open world mode, stratified by tag
+01:53:41 train 7062, valid 0, test 2015
+        early stopping, patience 10 reached
+01:55:08 fold fpr 0.0249, tpr 0.9902, fnr 0.0098, tnr 0.9751
+01:55:08 running fold 5...
+01:55:08 using open world mode, stratified by tag
+01:55:08 train 7129, valid 0, test 1948
+        early stopping, patience 10 reached
+01:56:08 fold fpr 0.0114, tpr 0.9782, fnr 0.0218, tnr 0.9886
+01:56:08 running fold 6...
+01:56:08 using open world mode, stratified by tag
+01:56:09 train 7340, valid 0, test 1737
+        early stopping, patience 10 reached
+01:57:06 fold fpr 0.0242, tpr 0.9841, fnr 0.0159, tnr 0.9758
+01:57:06 running fold 7...
+01:57:06 using open world mode, stratified by tag
+01:57:06 train 7257, valid 0, test 1820
+        early stopping, patience 10 reached
+01:58:18 fold fpr 0.0236, tpr 0.9837, fnr 0.0163, tnr 0.9764
+01:58:18 running fold 8...
+01:58:18 using open world mode, stratified by tag
+01:58:19 train 7333, valid 0, test 1744
+        early stopping, patience 10 reached
+01:59:12 fold fpr 0.0337, tpr 0.9916, fnr 0.0084, tnr 0.9663
+01:59:12 running fold 9...
+01:59:12 using open world mode, stratified by tag
+01:59:13 train 7475, valid 0, test 1602
+        early stopping, patience 10 reached
+02:00:15 fold fpr 0.0284, tpr 0.9856, fnr 0.0144, tnr 0.9716
+02:00:15 done, 10-fold cross validation results
+02:00:15 accuracy mean: 0.9776, std: 0.0043
+02:00:15 fpr mean: 0.0296, std: 0.0105
+02:00:19 loading datasets done, 18535 samples, 4392 from autoloc-100.npz, 14143 from clearnet-ol-0.npz
+02:00:19 baseline accuracy 0.7630
+02:00:19 using DF with 5000 cells
+02:00:19 'OPEN WORLD' MODE: splitting by tag, training probability 0.5
+02:00:19 training with 200 epochs, batch size 128, patience 10
+02:00:19 using NVIDIA GeForce RTX 3090
+02:00:19 we do 10-fold cross validation with a 8:1:1 split
+02:00:19 running fold 0...
+02:00:19 using open world mode, stratified by tag
+02:00:21 train 9072, valid 0, test 9463
+        early stopping, patience 10 reached
+02:01:08 fold fpr 0.0007, tpr 0.9991, fnr 0.0009, tnr 0.9993
+02:01:08 running fold 1...
+02:01:08 using open world mode, stratified by tag
+02:01:10 train 8590, valid 0, test 9945
+        early stopping, patience 10 reached
+02:02:23 fold fpr 0.0015, tpr 0.9935, fnr 0.0065, tnr 0.9985
+02:02:23 running fold 2...
+02:02:23 using open world mode, stratified by tag
+02:02:25 train 8997, valid 0, test 9538
+        early stopping, patience 10 reached
+02:03:37 fold fpr 0.0033, tpr 1.0000, fnr 0.0000, tnr 0.9967
+02:03:37 running fold 3...
+02:03:37 using open world mode, stratified by tag
+02:03:38 train 9115, valid 0, test 9420
+        early stopping, patience 10 reached
+02:05:07 fold fpr 0.0032, tpr 1.0000, fnr 0.0000, tnr 0.9968
+02:05:07 running fold 4...
+02:05:07 using open world mode, stratified by tag
+02:05:09 train 8893, valid 0, test 9642
+        early stopping, patience 10 reached
+02:06:35 fold fpr 0.0036, tpr 1.0000, fnr 0.0000, tnr 0.9964
+02:06:35 running fold 5...
+02:06:35 using open world mode, stratified by tag
+02:06:37 train 9123, valid 0, test 9412
+        early stopping, patience 10 reached
+02:07:37 fold fpr 0.0018, tpr 0.9969, fnr 0.0031, tnr 0.9982
+02:07:37 running fold 6...
+02:07:37 using open world mode, stratified by tag
+02:07:39 train 9331, valid 0, test 9204
+        early stopping, patience 10 reached
+02:08:55 fold fpr 0.0043, tpr 0.9945, fnr 0.0055, tnr 0.9957
+02:08:55 running fold 7...
+02:08:55 using open world mode, stratified by tag
+02:08:57 train 9280, valid 0, test 9255
+        early stopping, patience 10 reached
+02:09:56 fold fpr 0.0038, tpr 0.9977, fnr 0.0023, tnr 0.9962
+02:09:56 running fold 8...
+02:09:56 using open world mode, stratified by tag
+02:09:58 train 9340, valid 0, test 9195
+        early stopping, patience 10 reached
+02:11:05 fold fpr 0.0020, tpr 0.9963, fnr 0.0037, tnr 0.9980
+02:11:05 running fold 9...
+02:11:05 using open world mode, stratified by tag
+02:11:07 train 9106, valid 0, test 9429
+        early stopping, patience 10 reached
+02:11:49 fold fpr 0.0014, tpr 0.9940, fnr 0.0060, tnr 0.9986
+02:11:49 done, 10-fold cross validation results
+02:11:49 accuracy mean: 0.9974, std: 0.0009
+02:11:49 fpr mean: 0.0026, std: 0.0012
+02:11:52 loading datasets done, 9077 samples, 4392 from autoloc-100.npz, 4685 from onion-ol-0.npz
+02:11:52 baseline accuracy 0.5161
+02:11:52 using DF with 5000 cells
+02:11:52 'OPEN WORLD' MODE: splitting by tag, training probability 0.5
+02:11:52 training with 200 epochs, batch size 128, patience 10
+02:11:53 using NVIDIA GeForce RTX 3090
+02:11:53 we do 10-fold cross validation with a 8:1:1 split
+02:11:53 running fold 0...
+02:11:53 using open world mode, stratified by tag
+02:11:53 train 4752, valid 0, test 4325
+        early stopping, patience 10 reached
+02:12:47 fold fpr 0.0433, tpr 0.9864, fnr 0.0136, tnr 0.9567
+02:12:47 running fold 1...
+02:12:47 using open world mode, stratified by tag
+02:12:47 train 4378, valid 0, test 4699
+        early stopping, patience 10 reached
+02:13:22 fold fpr 0.0470, tpr 0.9766, fnr 0.0234, tnr 0.9530
+02:13:22 running fold 2...
+02:13:22 using open world mode, stratified by tag
+02:13:23 train 4286, valid 0, test 4791
+        early stopping, patience 10 reached
+02:13:53 fold fpr 0.0487, tpr 0.9845, fnr 0.0155, tnr 0.9513
+02:13:53 running fold 3...
+02:13:53 using open world mode, stratified by tag
+02:13:54 train 4882, valid 0, test 4195
+        early stopping, patience 10 reached
+02:14:31 fold fpr 0.0356, tpr 0.9866, fnr 0.0134, tnr 0.9644
+02:14:31 running fold 4...
+02:14:31 using open world mode, stratified by tag
+02:14:32 train 4606, valid 0, test 4471
+        early stopping, patience 10 reached
+02:15:04 fold fpr 0.0470, tpr 0.9885, fnr 0.0115, tnr 0.9530
+02:15:04 running fold 5...
+02:15:04 using open world mode, stratified by tag
+02:15:04 train 4620, valid 0, test 4457
+        early stopping, patience 10 reached
+02:16:00 fold fpr 0.0306, tpr 0.9682, fnr 0.0318, tnr 0.9694
+02:16:00 running fold 6...
+02:16:00 using open world mode, stratified by tag
+02:16:01 train 4589, valid 0, test 4488
+        early stopping, patience 10 reached
+02:16:52 fold fpr 0.0500, tpr 0.9793, fnr 0.0207, tnr 0.9500
+02:16:52 running fold 7...
+02:16:52 using open world mode, stratified by tag
+02:16:53 train 4601, valid 0, test 4476
+        early stopping, patience 10 reached
+02:17:28 fold fpr 0.0375, tpr 0.9829, fnr 0.0171, tnr 0.9625
+02:17:28 running fold 8...
+02:17:28 using open world mode, stratified by tag
+02:17:28 train 4661, valid 0, test 4416
+        early stopping, patience 10 reached
+02:18:25 fold fpr 0.0347, tpr 0.9906, fnr 0.0094, tnr 0.9653
+02:18:25 running fold 9...
+02:18:25 using open world mode, stratified by tag
+02:18:25 train 4623, valid 0, test 4454
+        early stopping, patience 10 reached
+02:19:16 fold fpr 0.0404, tpr 0.9854, fnr 0.0146, tnr 0.9596
+02:19:16 done, 10-fold cross validation results
+02:19:16 accuracy mean: 0.9705, std: 0.0043
+02:19:16 fpr mean: 0.0415, std: 0.0064
+02:19:18 loading datasets done, 18535 samples, 4392 from autoloc-100.npz, 14143 from clearnet-ol-0.npz
+02:19:18 baseline accuracy 0.7630
+02:19:18 using DF with 5000 cells
+02:19:18 'OPEN WORLD' MODE: splitting by tag, training probability 0.3
+02:19:18 training with 200 epochs, batch size 128, patience 10
+02:19:18 using NVIDIA GeForce RTX 3090
+02:19:18 we do 10-fold cross validation with a 8:1:1 split
+02:19:18 running fold 0...
+02:19:18 using open world mode, stratified by tag
+02:19:19 train 5774, valid 0, test 12761
+        early stopping, patience 10 reached
+02:20:01 fold fpr 0.0028, tpr 0.9993, fnr 0.0007, tnr 0.9972
+02:20:01 running fold 1...
+02:20:01 using open world mode, stratified by tag
+02:20:02 train 5198, valid 0, test 13337
+        early stopping, patience 10 reached
+02:20:53 fold fpr 0.0039, tpr 0.9974, fnr 0.0026, tnr 0.9961
+02:20:53 running fold 2...
+02:20:53 using open world mode, stratified by tag
+02:20:54 train 6096, valid 0, test 12439
+        early stopping, patience 10 reached
+02:21:14 fold fpr 0.0016, tpr 0.9914, fnr 0.0086, tnr 0.9984
+02:21:14 running fold 3...
+02:21:14 using open world mode, stratified by tag
+02:21:14 train 5632, valid 0, test 12903
+        early stopping, patience 10 reached
+02:21:43 fold fpr 0.0035, tpr 0.9967, fnr 0.0033, tnr 0.9965
+02:21:43 running fold 4...
+02:21:43 using open world mode, stratified by tag
+02:21:44 train 5400, valid 0, test 13135
+        early stopping, patience 10 reached
+02:22:09 fold fpr 0.0032, tpr 0.9987, fnr 0.0013, tnr 0.9968
+02:22:09 running fold 5...
+02:22:09 using open world mode, stratified by tag
+02:22:10 train 5649, valid 0, test 12886
+        early stopping, patience 10 reached
+02:22:43 fold fpr 0.0030, tpr 0.9980, fnr 0.0020, tnr 0.9970
+02:22:43 running fold 6...
+02:22:43 using open world mode, stratified by tag
+02:22:44 train 5088, valid 0, test 13447
+        early stopping, patience 10 reached
+02:23:22 fold fpr 0.0034, tpr 0.9956, fnr 0.0044, tnr 0.9966
+02:23:22 running fold 7...
+02:23:22 using open world mode, stratified by tag
+02:23:23 train 5487, valid 0, test 13048
+        early stopping, patience 10 reached
+02:23:43 fold fpr 0.0022, tpr 0.9913, fnr 0.0087, tnr 0.9978
+02:23:43 running fold 8...
+02:23:43 using open world mode, stratified by tag
+02:23:44 train 5273, valid 0, test 13262
+        early stopping, patience 10 reached
+02:24:10 fold fpr 0.0010, tpr 0.9758, fnr 0.0242, tnr 0.9990
+02:24:10 running fold 9...
+02:24:10 using open world mode, stratified by tag
+02:24:11 train 5679, valid 0, test 12856
+        early stopping, patience 10 reached
+02:25:10 fold fpr 0.0035, tpr 0.9973, fnr 0.0027, tnr 0.9965
+02:25:10 done, 10-fold cross validation results
+02:25:10 accuracy mean: 0.9965, std: 0.0011
+02:25:10 fpr mean: 0.0028, std: 0.0009
+02:25:11 loading datasets done, 9077 samples, 4392 from autoloc-100.npz, 4685 from onion-ol-0.npz
+02:25:11 baseline accuracy 0.5161
+02:25:11 using DF with 5000 cells
+02:25:11 'OPEN WORLD' MODE: splitting by tag, training probability 0.3
+02:25:11 training with 200 epochs, batch size 128, patience 10
+02:25:11 using NVIDIA GeForce RTX 3090
+02:25:11 we do 10-fold cross validation with a 8:1:1 split
+02:25:11 running fold 0...
+02:25:11 using open world mode, stratified by tag
+02:25:12 train 2776, valid 0, test 6301
+        early stopping, patience 10 reached
+02:25:34 fold fpr 0.0434, tpr 0.9673, fnr 0.0327, tnr 0.9566
+02:25:34 running fold 1...
+02:25:34 using open world mode, stratified by tag
+02:25:34 train 2641, valid 0, test 6436
+        early stopping, patience 10 reached
+02:25:56 fold fpr 0.0458, tpr 0.9674, fnr 0.0326, tnr 0.9542
+02:25:56 running fold 2...
+02:25:56 using open world mode, stratified by tag
+02:25:57 train 2512, valid 0, test 6565
+        early stopping, patience 10 reached
+02:26:09 fold fpr 0.0295, tpr 0.9589, fnr 0.0411, tnr 0.9705
+02:26:09 running fold 3...
+02:26:09 using open world mode, stratified by tag
+02:26:09 train 2659, valid 0, test 6418
+        early stopping, patience 10 reached
+02:26:32 fold fpr 0.0495, tpr 0.9824, fnr 0.0176, tnr 0.9505
+02:26:32 running fold 4...
+02:26:32 using open world mode, stratified by tag
+02:26:33 train 2877, valid 0, test 6200
+        early stopping, patience 10 reached
+02:26:50 fold fpr 0.0569, tpr 0.9745, fnr 0.0255, tnr 0.9431
+02:26:50 running fold 5...
+02:26:50 using open world mode, stratified by tag
+02:26:51 train 3049, valid 0, test 6028
+        early stopping, patience 10 reached
+02:27:07 fold fpr 0.0486, tpr 0.9806, fnr 0.0194, tnr 0.9514
+02:27:07 running fold 6...
+02:27:07 using open world mode, stratified by tag
+02:27:08 train 2924, valid 0, test 6153
+        early stopping, patience 10 reached
+02:27:28 fold fpr 0.0558, tpr 0.9836, fnr 0.0164, tnr 0.9442
+02:27:28 running fold 7...
+02:27:28 using open world mode, stratified by tag
+02:27:29 train 2564, valid 0, test 6513
+        early stopping, patience 10 reached
+02:27:47 fold fpr 0.0648, tpr 0.9878, fnr 0.0122, tnr 0.9352
+02:27:47 running fold 8...
+02:27:47 using open world mode, stratified by tag
+02:27:47 train 2755, valid 0, test 6322
+        early stopping, patience 10 reached
+02:27:59 fold fpr 0.0464, tpr 0.9771, fnr 0.0229, tnr 0.9536
+02:27:59 running fold 9...
+02:27:59 using open world mode, stratified by tag
+02:28:00 train 2657, valid 0, test 6420
+        early stopping, patience 10 reached
+02:28:14 fold fpr 0.0431, tpr 0.9675, fnr 0.0325, tnr 0.9569
+02:28:14 done, 10-fold cross validation results
+02:28:14 accuracy mean: 0.9627, std: 0.0025
+02:28:14 fpr mean: 0.0484, std: 0.0091
+overlap
+02:28:15 loading datasets done, 9789 samples, 4392 from autoloc-100.npz, 5397 from negative-ol-100.npz
+02:28:15 baseline accuracy 0.5513
+02:28:15 using DF with 5000 cells
+02:28:15 training with 200 epochs, batch size 128, patience 10
+02:28:15 using NVIDIA GeForce RTX 3090
+02:28:15 we do 10-fold cross validation with a 8:1:1 split
+02:28:15 running fold 0...
+02:28:15 using closed world mode, stratified by label
+02:28:15 train 7830, valid 979, test 980
+        early stopping, patience 10 reached
+02:30:31 fold fpr 0.1118, tpr 0.9341, fnr 0.0659, tnr 0.8882
+02:30:31 running fold 1...
+02:30:31 using closed world mode, stratified by label
+02:30:31 train 7830, valid 979, test 980
+        early stopping, patience 10 reached
+02:32:44 fold fpr 0.0855, tpr 0.9545, fnr 0.0455, tnr 0.9145
+02:32:44 running fold 2...
+02:32:44 using closed world mode, stratified by label
+02:32:44 train 7830, valid 979, test 980
+        early stopping, patience 10 reached
+02:34:15 fold fpr 0.1228, tpr 0.9341, fnr 0.0659, tnr 0.8772
+02:34:15 running fold 3...
+02:34:15 using closed world mode, stratified by label
+02:34:15 train 7830, valid 979, test 980
+        early stopping, patience 10 reached
+02:36:12 fold fpr 0.1140, tpr 0.8977, fnr 0.1023, tnr 0.8860
+02:36:12 running fold 4...
+02:36:12 using closed world mode, stratified by label
+02:36:12 train 7830, valid 979, test 980
+        early stopping, patience 10 reached
+02:38:19 fold fpr 0.0789, tpr 0.9091, fnr 0.0909, tnr 0.9211
+02:38:19 running fold 5...
+02:38:19 using closed world mode, stratified by label
+02:38:19 train 7830, valid 979, test 980
+        early stopping, patience 10 reached
+02:39:59 fold fpr 0.0965, tpr 0.9205, fnr 0.0795, tnr 0.9035
+02:39:59 running fold 6...
+02:39:59 using closed world mode, stratified by label
+02:39:59 train 7830, valid 979, test 980
+        early stopping, patience 10 reached
+02:41:46 fold fpr 0.0921, tpr 0.9364, fnr 0.0636, tnr 0.9079
+02:41:46 running fold 7...
+02:41:46 using closed world mode, stratified by label
+02:41:46 train 7830, valid 979, test 980
+        early stopping, patience 10 reached
+02:43:45 fold fpr 0.1053, tpr 0.9205, fnr 0.0795, tnr 0.8947
+02:43:45 running fold 8...
+02:43:45 using closed world mode, stratified by label
+02:43:45 train 7830, valid 979, test 980
+        early stopping, patience 10 reached
+02:45:37 fold fpr 0.0746, tpr 0.9068, fnr 0.0932, tnr 0.9254
+02:45:37 running fold 9...
+02:45:37 using closed world mode, stratified by label
+02:45:37 train 7830, valid 979, test 980
+        early stopping, patience 10 reached
+02:47:43 fold fpr 0.0987, tpr 0.9432, fnr 0.0568, tnr 0.9013
+02:47:43 done, 10-fold cross validation results
+02:47:43 accuracy mean: 0.9136, std: 0.0108
+02:47:43 fpr mean: 0.0980, std: 0.0149
+positive class limit
+02:47:45 loading datasets done, 18740 samples, 4597 from autoloc-75.npz, 14143 from clearnet-ol-0.npz
+02:47:45 baseline accuracy 0.7547
+02:47:45 using DF with 5000 cells
+02:47:45 training with 200 epochs, batch size 128, patience 10
+02:47:45 using NVIDIA GeForce RTX 3090
+02:47:45 we do 10-fold cross validation with a 8:1:1 split
+02:47:45 running fold 0...
+02:47:45 using closed world mode, stratified by label
+02:47:45 train 14991, valid 1874, test 1875
+        early stopping, patience 10 reached
+02:49:08 fold fpr 0.0023, tpr 1.0000, fnr 0.0000, tnr 0.9977
+02:49:08 running fold 1...
+02:49:08 using closed world mode, stratified by label
+02:49:08 train 14991, valid 1874, test 1875
+        early stopping, patience 10 reached
+02:50:48 fold fpr 0.0023, tpr 1.0000, fnr 0.0000, tnr 0.9977
+02:50:48 running fold 2...
+02:50:48 using closed world mode, stratified by label
+02:50:48 train 14991, valid 1874, test 1875
+        early stopping, patience 10 reached
+02:53:11 fold fpr 0.0000, tpr 0.9978, fnr 0.0022, tnr 1.0000
+02:53:11 running fold 3...
+02:53:11 using closed world mode, stratified by label
+02:53:11 train 14991, valid 1874, test 1875
+        early stopping, patience 10 reached
+02:54:51 fold fpr 0.0000, tpr 0.9978, fnr 0.0022, tnr 1.0000
+02:54:51 running fold 4...
+02:54:51 using closed world mode, stratified by label
+02:54:51 train 14991, valid 1874, test 1875
+        early stopping, patience 10 reached
+02:56:24 fold fpr 0.0015, tpr 1.0000, fnr 0.0000, tnr 0.9985
+02:56:24 running fold 5...
+02:56:24 using closed world mode, stratified by label
+02:56:24 train 14991, valid 1874, test 1875
+        early stopping, patience 10 reached
+02:58:21 fold fpr 0.0015, tpr 0.9978, fnr 0.0022, tnr 0.9985
+02:58:21 running fold 6...
+02:58:21 using closed world mode, stratified by label
+02:58:21 train 14991, valid 1874, test 1875
+        early stopping, patience 10 reached
+03:00:10 fold fpr 0.0000, tpr 0.9978, fnr 0.0022, tnr 1.0000
+03:00:10 running fold 7...
+03:00:10 using closed world mode, stratified by label
+03:00:10 train 14991, valid 1874, test 1875
+        early stopping, patience 10 reached
+03:02:13 fold fpr 0.0015, tpr 0.9978, fnr 0.0022, tnr 0.9985
+03:02:13 running fold 8...
+03:02:13 using closed world mode, stratified by label
+03:02:13 train 14991, valid 1874, test 1875
+        early stopping, patience 10 reached
+03:04:04 fold fpr 0.0030, tpr 1.0000, fnr 0.0000, tnr 0.9970
+03:04:04 running fold 9...
+03:04:04 using closed world mode, stratified by label
+03:04:04 train 14991, valid 1874, test 1875
+        early stopping, patience 10 reached
+03:06:23 fold fpr 0.0008, tpr 0.9978, fnr 0.0022, tnr 0.9992
+03:06:23 done, 10-fold cross validation results
+03:06:23 accuracy mean: 0.9987, std: 0.0006
+03:06:23 fpr mean: 0.0013, std: 0.0010
+03:06:25 loading datasets done, 19012 samples, 4869 from autoloc-50.npz, 14143 from clearnet-ol-0.npz
+03:06:25 baseline accuracy 0.7439
+03:06:25 using DF with 5000 cells
+03:06:25 training with 200 epochs, batch size 128, patience 10
+03:06:25 using NVIDIA GeForce RTX 3090
+03:06:25 we do 10-fold cross validation with a 8:1:1 split
+03:06:25 running fold 0...
+03:06:25 using closed world mode, stratified by label
+03:06:25 train 15209, valid 1901, test 1902
+        early stopping, patience 10 reached
+03:07:44 fold fpr 0.0008, tpr 1.0000, fnr 0.0000, tnr 0.9992
+03:07:44 running fold 1...
+03:07:44 using closed world mode, stratified by label
+03:07:44 train 15209, valid 1901, test 1902
+        early stopping, patience 10 reached
+03:09:23 fold fpr 0.0000, tpr 0.9938, fnr 0.0062, tnr 1.0000
+03:09:23 running fold 2...
+03:09:23 using closed world mode, stratified by label
+03:09:23 train 15209, valid 1901, test 1902
+        early stopping, patience 10 reached
+03:11:49 fold fpr 0.0008, tpr 0.9959, fnr 0.0041, tnr 0.9992
+03:11:49 running fold 3...
+03:11:49 using closed world mode, stratified by label
+03:11:49 train 15209, valid 1901, test 1902
+        early stopping, patience 10 reached
+03:13:41 fold fpr 0.0015, tpr 1.0000, fnr 0.0000, tnr 0.9985
+03:13:41 running fold 4...
+03:13:41 using closed world mode, stratified by label
+03:13:41 train 15209, valid 1901, test 1902
+        early stopping, patience 10 reached
+03:15:36 fold fpr 0.0000, tpr 0.9918, fnr 0.0082, tnr 1.0000
+03:15:36 running fold 5...
+03:15:36 using closed world mode, stratified by label
+03:15:36 train 15209, valid 1901, test 1902
+        early stopping, patience 10 reached
+03:17:08 fold fpr 0.0000, tpr 0.9979, fnr 0.0021, tnr 1.0000
+03:17:08 running fold 6...
+03:17:08 using closed world mode, stratified by label
+03:17:08 train 15209, valid 1901, test 1902
+        early stopping, patience 10 reached
+03:19:15 fold fpr 0.0008, tpr 0.9979, fnr 0.0021, tnr 0.9992
+03:19:15 running fold 7...
+03:19:15 using closed world mode, stratified by label
+03:19:15 train 15209, valid 1901, test 1902
+        early stopping, patience 10 reached
+03:20:40 fold fpr 0.0008, tpr 0.9959, fnr 0.0041, tnr 0.9992
+03:20:40 running fold 8...
+03:20:40 using closed world mode, stratified by label
+03:20:40 train 15209, valid 1901, test 1902
+        early stopping, patience 10 reached
+03:22:36 fold fpr 0.0031, tpr 0.9979, fnr 0.0021, tnr 0.9969
+03:22:36 running fold 9...
+03:22:36 using closed world mode, stratified by label
+03:22:36 train 15209, valid 1901, test 1902
+        early stopping, patience 10 reached
+03:24:45 fold fpr 0.0015, tpr 0.9918, fnr 0.0082, tnr 0.9985
+03:24:45 done, 10-fold cross validation results
+03:24:45 accuracy mean: 0.9983, std: 0.0009
+03:24:45 fpr mean: 0.0009, std: 0.0009
+03:24:47 loading datasets done, 19949 samples, 5806 from autoloc-35.npz, 14143 from clearnet-ol-0.npz
+03:24:47 baseline accuracy 0.7090
+03:24:47 using DF with 5000 cells
+03:24:47 training with 200 epochs, batch size 128, patience 10
+03:24:47 using NVIDIA GeForce RTX 3090
+03:24:47 we do 10-fold cross validation with a 8:1:1 split
+03:24:47 running fold 0...
+03:24:47 using closed world mode, stratified by label
+03:24:47 train 15958, valid 1995, test 1996
+        early stopping, patience 10 reached
+03:28:31 fold fpr 0.0045, tpr 0.9656, fnr 0.0344, tnr 0.9955
+03:28:31 running fold 1...
+03:28:31 using closed world mode, stratified by label
+03:28:31 train 15958, valid 1995, test 1996
+        early stopping, patience 10 reached
+03:32:13 fold fpr 0.0015, tpr 0.9587, fnr 0.0413, tnr 0.9985
+03:32:13 running fold 2...
+03:32:13 using closed world mode, stratified by label
+03:32:13 train 15958, valid 1995, test 1996
+        early stopping, patience 10 reached
+03:36:14 fold fpr 0.0075, tpr 0.9690, fnr 0.0310, tnr 0.9925
+03:36:14 running fold 3...
+03:36:14 using closed world mode, stratified by label
+03:36:14 train 15958, valid 1995, test 1996
+        early stopping, patience 10 reached
+03:40:15 fold fpr 0.0052, tpr 0.9707, fnr 0.0293, tnr 0.9948
+03:40:15 running fold 4...
+03:40:15 using closed world mode, stratified by label
+03:40:15 train 15958, valid 1995, test 1996
+        early stopping, patience 10 reached
+03:43:19 fold fpr 0.0052, tpr 0.9570, fnr 0.0430, tnr 0.9948
+03:43:19 running fold 5...
+03:43:19 using closed world mode, stratified by label
+03:43:19 train 15958, valid 1995, test 1996
+        early stopping, patience 10 reached
+03:48:36 fold fpr 0.0060, tpr 0.9707, fnr 0.0293, tnr 0.9940
+03:48:36 running fold 6...
+03:48:36 using closed world mode, stratified by label
+03:48:36 train 15958, valid 1995, test 1996
+        early stopping, patience 10 reached
+03:52:58 fold fpr 0.0037, tpr 0.9535, fnr 0.0465, tnr 0.9963
+03:52:58 running fold 7...
+03:52:58 using closed world mode, stratified by label
+03:52:58 train 15958, valid 1995, test 1996
+        early stopping, patience 10 reached
+03:56:27 fold fpr 0.0075, tpr 0.9501, fnr 0.0499, tnr 0.9925
+03:56:27 running fold 8...
+03:56:27 using closed world mode, stratified by label
+03:56:27 train 15958, valid 1995, test 1996
+        early stopping, patience 10 reached
+04:00:24 fold fpr 0.0052, tpr 0.9690, fnr 0.0310, tnr 0.9948
+04:00:24 running fold 9...
+04:00:24 using closed world mode, stratified by label
+04:00:24 train 15958, valid 1995, test 1996
+        early stopping, patience 10 reached
+04:05:02 fold fpr 0.0052, tpr 0.9725, fnr 0.0275, tnr 0.9948
+04:05:02 done, 10-fold cross validation results
+04:05:02 accuracy mean: 0.9854, std: 0.0024
+04:05:02 fpr mean: 0.0052, std: 0.0017
+04:05:04 loading datasets done, 20846 samples, 6703 from autoloc-30.npz, 14143 from clearnet-ol-0.npz
+04:05:04 baseline accuracy 0.6785
+04:05:04 using DF with 5000 cells
+04:05:04 training with 200 epochs, batch size 128, patience 10
+04:05:04 using NVIDIA GeForce RTX 3090
+04:05:04 we do 10-fold cross validation with a 8:1:1 split
+04:05:04 running fold 0...
+04:05:04 using closed world mode, stratified by label
+04:05:04 train 16676, valid 2084, test 2086
+        early stopping, patience 10 reached
+04:07:42 fold fpr 0.0123, tpr 0.9657, fnr 0.0343, tnr 0.9877
+04:07:42 running fold 1...
+04:07:42 using closed world mode, stratified by label
+04:07:42 train 16676, valid 2084, test 2086
+        early stopping, patience 10 reached
+04:11:25 fold fpr 0.0058, tpr 0.9613, fnr 0.0387, tnr 0.9942
+04:11:25 running fold 2...
+04:11:25 using closed world mode, stratified by label
+04:11:25 train 16676, valid 2084, test 2086
+        early stopping, patience 10 reached
+04:15:45 fold fpr 0.0058, tpr 0.9463, fnr 0.0537, tnr 0.9942
+04:15:45 running fold 3...
+04:15:45 using closed world mode, stratified by label
+04:15:45 train 16676, valid 2084, test 2086
+        early stopping, patience 10 reached
+04:19:43 fold fpr 0.0065, tpr 0.9657, fnr 0.0343, tnr 0.9935
+04:19:43 running fold 4...
+04:19:43 using closed world mode, stratified by label
+04:19:43 train 16676, valid 2084, test 2086
+        early stopping, patience 10 reached
+04:24:44 fold fpr 0.0036, tpr 0.9463, fnr 0.0537, tnr 0.9964
+04:24:44 running fold 5...
+04:24:44 using closed world mode, stratified by label
+04:24:44 train 16676, valid 2084, test 2086
+        early stopping, patience 10 reached
+04:28:01 fold fpr 0.0080, tpr 0.9419, fnr 0.0581, tnr 0.9920
+04:28:01 running fold 6...
+04:28:01 using closed world mode, stratified by label
+04:28:01 train 16676, valid 2084, test 2086
+        early stopping, patience 10 reached
+04:32:23 fold fpr 0.0058, tpr 0.9553, fnr 0.0447, tnr 0.9942
+04:32:23 running fold 7...
+04:32:23 using closed world mode, stratified by label
+04:32:23 train 16676, valid 2084, test 2086
+        early stopping, patience 10 reached
+04:36:29 fold fpr 0.0044, tpr 0.9508, fnr 0.0492, tnr 0.9956
+04:36:29 running fold 8...
+04:36:29 using closed world mode, stratified by label
+04:36:29 train 16676, valid 2084, test 2086
+        early stopping, patience 10 reached
+04:41:13 fold fpr 0.0015, tpr 0.9538, fnr 0.0462, tnr 0.9985
+04:41:13 running fold 9...
+04:41:13 using closed world mode, stratified by label
+04:41:13 train 16676, valid 2084, test 2086
+        early stopping, patience 10 reached
+04:45:18 fold fpr 0.0073, tpr 0.9553, fnr 0.0447, tnr 0.9927
+04:45:18 done, 10-fold cross validation results
+04:45:18 accuracy mean: 0.9809, std: 0.0025
+04:45:18 fpr mean: 0.0061, std: 0.0027
+04:45:20 loading datasets done, 9282 samples, 4597 from autoloc-75.npz, 4685 from onion-ol-0.npz
+04:45:20 baseline accuracy 0.5047
+04:45:20 using DF with 5000 cells
+04:45:20 training with 200 epochs, batch size 128, patience 10
+04:45:20 using NVIDIA GeForce RTX 3090
+04:45:20 we do 10-fold cross validation with a 8:1:1 split
+04:45:20 running fold 0...
+04:45:20 using closed world mode, stratified by label
+04:45:20 train 7425, valid 928, test 929
+        early stopping, patience 10 reached
+04:46:31 fold fpr 0.0046, tpr 0.9783, fnr 0.0217, tnr 0.9954
+04:46:31 running fold 1...
+04:46:31 using closed world mode, stratified by label
+04:46:31 train 7425, valid 928, test 929
+        early stopping, patience 10 reached
+04:47:15 fold fpr 0.0298, tpr 0.9913, fnr 0.0087, tnr 0.9702
+04:47:15 running fold 2...
+04:47:15 using closed world mode, stratified by label
+04:47:15 train 7425, valid 928, test 929
+        early stopping, patience 10 reached
+04:48:13 fold fpr 0.0138, tpr 0.9891, fnr 0.0109, tnr 0.9862
+04:48:13 running fold 3...
+04:48:13 using closed world mode, stratified by label
+04:48:13 train 7425, valid 928, test 929
+        early stopping, patience 10 reached
+04:49:37 fold fpr 0.0069, tpr 0.9891, fnr 0.0109, tnr 0.9931
+04:49:37 running fold 4...
+04:49:37 using closed world mode, stratified by label
+04:49:37 train 7425, valid 928, test 929
+        early stopping, patience 10 reached
+04:50:42 fold fpr 0.0321, tpr 0.9935, fnr 0.0065, tnr 0.9679
+04:50:42 running fold 5...
+04:50:42 using closed world mode, stratified by label
+04:50:42 train 7425, valid 928, test 929
+        early stopping, patience 10 reached
+04:51:35 fold fpr 0.0321, tpr 0.9957, fnr 0.0043, tnr 0.9679
+04:51:35 running fold 6...
+04:51:35 using closed world mode, stratified by label
+04:51:35 train 7425, valid 928, test 929
+        early stopping, patience 10 reached
+04:52:39 fold fpr 0.0092, tpr 0.9717, fnr 0.0283, tnr 0.9908
+04:52:39 running fold 7...
+04:52:39 using closed world mode, stratified by label
+04:52:39 train 7425, valid 928, test 929
+        early stopping, patience 10 reached
+04:53:38 fold fpr 0.0252, tpr 0.9848, fnr 0.0152, tnr 0.9748
+04:53:38 running fold 8...
+04:53:38 using closed world mode, stratified by label
+04:53:38 train 7425, valid 928, test 929
+        early stopping, patience 10 reached
+04:55:17 fold fpr 0.0161, tpr 0.9957, fnr 0.0043, tnr 0.9839
+04:55:17 running fold 9...
+04:55:17 using closed world mode, stratified by label
+04:55:17 train 7425, valid 928, test 929
+        early stopping, patience 10 reached
+04:56:01 fold fpr 0.0069, tpr 0.9804, fnr 0.0196, tnr 0.9931
+04:56:01 done, 10-fold cross validation results
+04:56:01 accuracy mean: 0.9847, std: 0.0039
+04:56:01 fpr mean: 0.0177, std: 0.0106
+04:56:03 loading datasets done, 9554 samples, 4869 from autoloc-50.npz, 4685 from onion-ol-0.npz
+04:56:03 baseline accuracy 0.5096
+04:56:03 using DF with 5000 cells
+04:56:03 training with 200 epochs, batch size 128, patience 10
+04:56:03 using NVIDIA GeForce RTX 3090
+04:56:03 we do 10-fold cross validation with a 8:1:1 split
+04:56:03 running fold 0...
+04:56:03 using closed world mode, stratified by label
+04:56:03 train 7643, valid 955, test 956
+        early stopping, patience 10 reached
+04:57:25 fold fpr 0.0196, tpr 0.9856, fnr 0.0144, tnr 0.9804
+04:57:25 running fold 1...
+04:57:25 using closed world mode, stratified by label
+04:57:25 train 7643, valid 955, test 956
+        early stopping, patience 10 reached
+04:58:42 fold fpr 0.0098, tpr 0.9774, fnr 0.0226, tnr 0.9902
+04:58:42 running fold 2...
+04:58:42 using closed world mode, stratified by label
+04:58:42 train 7643, valid 955, test 956
+        early stopping, patience 10 reached
+04:59:40 fold fpr 0.0171, tpr 0.9630, fnr 0.0370, tnr 0.9829
+04:59:40 running fold 3...
+04:59:40 using closed world mode, stratified by label
+04:59:40 train 7643, valid 955, test 956
+        early stopping, patience 10 reached
+05:00:40 fold fpr 0.0244, tpr 0.9959, fnr 0.0041, tnr 0.9756
+05:00:40 running fold 4...
+05:00:40 using closed world mode, stratified by label
+05:00:40 train 7643, valid 955, test 956
+        early stopping, patience 10 reached
+05:01:44 fold fpr 0.0073, tpr 0.9733, fnr 0.0267, tnr 0.9927
+05:01:44 running fold 5...
+05:01:44 using closed world mode, stratified by label
+05:01:44 train 7643, valid 955, test 956
+        early stopping, patience 10 reached
+05:02:53 fold fpr 0.0244, tpr 0.9877, fnr 0.0123, tnr 0.9756
+05:02:53 running fold 6...
+05:02:53 using closed world mode, stratified by label
+05:02:53 train 7643, valid 955, test 956
+        early stopping, patience 10 reached
+05:04:07 fold fpr 0.0098, tpr 0.9795, fnr 0.0205, tnr 0.9902
+05:04:07 running fold 7...
+05:04:07 using closed world mode, stratified by label
+05:04:07 train 7643, valid 955, test 956
+        early stopping, patience 10 reached
+05:05:15 fold fpr 0.0122, tpr 0.9897, fnr 0.0103, tnr 0.9878
+05:05:15 running fold 8...
+05:05:15 using closed world mode, stratified by label
+05:05:15 train 7643, valid 955, test 956
+        early stopping, patience 10 reached
+05:06:24 fold fpr 0.0293, tpr 0.9877, fnr 0.0123, tnr 0.9707
+05:06:24 running fold 9...
+05:06:24 using closed world mode, stratified by label
+05:06:24 train 7643, valid 955, test 956
+        early stopping, patience 10 reached
+05:08:18 fold fpr 0.0122, tpr 0.9897, fnr 0.0103, tnr 0.9878
+05:08:18 done, 10-fold cross validation results
+05:08:18 accuracy mean: 0.9831, std: 0.0046
+05:08:18 fpr mean: 0.0166, std: 0.0072
+05:08:19 loading datasets done, 10491 samples, 5806 from autoloc-35.npz, 4685 from onion-ol-0.npz
+05:08:19 baseline accuracy 0.5534
+05:08:19 using DF with 5000 cells
+05:08:19 training with 200 epochs, batch size 128, patience 10
+05:08:19 using NVIDIA GeForce RTX 3090
+05:08:19 we do 10-fold cross validation with a 8:1:1 split
+05:08:19 running fold 0...
+05:08:19 using closed world mode, stratified by label
+05:08:19 train 8392, valid 1049, test 1050
+        early stopping, patience 10 reached
+05:09:19 fold fpr 0.0203, tpr 0.9948, fnr 0.0052, tnr 0.9797
+05:09:19 running fold 1...
+05:09:19 using closed world mode, stratified by label
+05:09:19 train 8392, valid 1049, test 1050
+        early stopping, patience 10 reached
+05:10:39 fold fpr 0.0384, tpr 0.9914, fnr 0.0086, tnr 0.9616
+05:10:39 running fold 2...
+05:10:39 using closed world mode, stratified by label
+05:10:39 train 8392, valid 1049, test 1050
+        early stopping, patience 10 reached
+05:11:50 fold fpr 0.0135, tpr 0.9931, fnr 0.0069, tnr 0.9865
+05:11:50 running fold 3...
+05:11:50 using closed world mode, stratified by label
+05:11:50 train 8392, valid 1049, test 1050
+        early stopping, patience 10 reached
+05:13:14 fold fpr 0.0135, tpr 0.9897, fnr 0.0103, tnr 0.9865
+05:13:14 running fold 4...
+05:13:14 using closed world mode, stratified by label
+05:13:14 train 8392, valid 1049, test 1050
+        early stopping, patience 10 reached
+05:14:36 fold fpr 0.0135, tpr 0.9880, fnr 0.0120, tnr 0.9865
+05:14:36 running fold 5...
+05:14:36 using closed world mode, stratified by label
+05:14:36 train 8392, valid 1049, test 1050
+        early stopping, patience 10 reached
+05:15:48 fold fpr 0.0135, tpr 0.9776, fnr 0.0224, tnr 0.9865
+05:15:48 running fold 6...
+05:15:48 using closed world mode, stratified by label
+05:15:48 train 8392, valid 1049, test 1050
+        early stopping, patience 10 reached
+05:17:25 fold fpr 0.0316, tpr 0.9931, fnr 0.0069, tnr 0.9684
+05:17:25 running fold 7...
+05:17:25 using closed world mode, stratified by label
+05:17:25 train 8392, valid 1049, test 1050
+        early stopping, patience 10 reached
+05:18:50 fold fpr 0.0203, tpr 0.9948, fnr 0.0052, tnr 0.9797
+05:18:50 running fold 8...
+05:18:50 using closed world mode, stratified by label
+05:18:50 train 8392, valid 1049, test 1050
+        early stopping, patience 10 reached
+05:20:05 fold fpr 0.0023, tpr 0.9776, fnr 0.0224, tnr 0.9977
+05:20:05 running fold 9...
+05:20:05 using closed world mode, stratified by label
+05:20:05 train 8392, valid 1049, test 1050
+        early stopping, patience 10 reached
+05:21:27 fold fpr 0.0248, tpr 0.9845, fnr 0.0155, tnr 0.9752
+05:21:27 done, 10-fold cross validation results
+05:21:27 accuracy mean: 0.9852, std: 0.0039
+05:21:27 fpr mean: 0.0192, std: 0.0099
+05:21:28 loading datasets done, 11388 samples, 6703 from autoloc-30.npz, 4685 from onion-ol-0.npz
+05:21:28 baseline accuracy 0.5886
+05:21:28 using DF with 5000 cells
+05:21:28 training with 200 epochs, batch size 128, patience 10
+05:21:28 using NVIDIA GeForce RTX 3090
+05:21:28 we do 10-fold cross validation with a 8:1:1 split
+05:21:28 running fold 0...
+05:21:28 using closed world mode, stratified by label
+05:21:28 train 9110, valid 1138, test 1140
+        early stopping, patience 10 reached
+05:22:57 fold fpr 0.0198, tpr 0.9911, fnr 0.0089, tnr 0.9802
+05:22:57 running fold 1...
+05:22:57 using closed world mode, stratified by label
+05:22:57 train 9110, valid 1138, test 1140
+        early stopping, patience 10 reached
+05:24:18 fold fpr 0.0227, tpr 0.9866, fnr 0.0134, tnr 0.9773
+05:24:18 running fold 2...
+05:24:18 using closed world mode, stratified by label
+05:24:18 train 9110, valid 1138, test 1140
+        early stopping, patience 10 reached
+05:25:51 fold fpr 0.0113, tpr 0.9940, fnr 0.0060, tnr 0.9887
+05:25:51 running fold 3...
+05:25:51 using closed world mode, stratified by label
+05:25:51 train 9110, valid 1138, test 1140
+        early stopping, patience 10 reached
+05:27:34 fold fpr 0.0170, tpr 0.9940, fnr 0.0060, tnr 0.9830
+05:27:34 running fold 4...
+05:27:34 using closed world mode, stratified by label
+05:27:34 train 9110, valid 1138, test 1140
+        early stopping, patience 10 reached
+05:29:33 fold fpr 0.0283, tpr 0.9970, fnr 0.0030, tnr 0.9717
+05:29:33 running fold 5...
+05:29:33 using closed world mode, stratified by label
+05:29:33 train 9110, valid 1138, test 1140
+        early stopping, patience 10 reached
+05:31:01 fold fpr 0.0113, tpr 0.9896, fnr 0.0104, tnr 0.9887
+05:31:01 running fold 6...
+05:31:01 using closed world mode, stratified by label
+05:31:01 train 9110, valid 1138, test 1140
+        early stopping, patience 10 reached
+05:32:20 fold fpr 0.0113, tpr 0.9821, fnr 0.0179, tnr 0.9887
+05:32:20 running fold 7...
+05:32:20 using closed world mode, stratified by label
+05:32:20 train 9110, valid 1138, test 1140
+        early stopping, patience 10 reached
+05:33:53 fold fpr 0.0057, tpr 0.9896, fnr 0.0104, tnr 0.9943
+05:33:53 running fold 8...
+05:33:53 using closed world mode, stratified by label
+05:33:53 train 9110, valid 1138, test 1140
+        early stopping, patience 10 reached
+05:35:03 fold fpr 0.0255, tpr 0.9911, fnr 0.0089, tnr 0.9745
+05:35:03 running fold 9...
+05:35:03 using closed world mode, stratified by label
+05:35:03 train 9110, valid 1138, test 1140
+        early stopping, patience 10 reached
+05:36:43 fold fpr 0.0255, tpr 0.9866, fnr 0.0134, tnr 0.9745
+05:36:43 done, 10-fold cross validation results
+05:36:43 accuracy mean: 0.9874, std: 0.0032
+05:36:43 fpr mean: 0.0178, std: 0.0073
+circuit fingerprinting
+05:36:45 loading datasets done, 52700 samples, 21795 from clearnet-only-general.npz, 30905 from clearnet-no-general.npz
+05:36:45 baseline accuracy 0.5864
+05:36:45 using DF with 512 cells
+05:36:45 training with 200 epochs, batch size 128, patience 10
+05:36:45 using NVIDIA GeForce RTX 3090
+05:36:45 we do 10-fold cross validation with a 8:1:1 split
+05:36:45 running fold 0...
+05:36:45 using closed world mode, stratified by label
+05:36:45 train 42160, valid 5269, test 5271
+        early stopping, patience 10 reached
+05:42:58 fold fpr 0.0000, tpr 0.9986, fnr 0.0014, tnr 1.0000
+05:42:58 running fold 1...
+05:42:58 using closed world mode, stratified by label
+05:42:58 train 42160, valid 5269, test 5271
+        early stopping, patience 10 reached
+05:47:14 fold fpr 0.0003, tpr 0.9986, fnr 0.0014, tnr 0.9997
+05:47:14 running fold 2...
+05:47:14 using closed world mode, stratified by label
+05:47:14 train 42160, valid 5269, test 5271
+        early stopping, patience 10 reached
+05:53:27 fold fpr 0.0007, tpr 0.9986, fnr 0.0014, tnr 0.9993
+05:53:27 running fold 3...
+05:53:27 using closed world mode, stratified by label
+05:53:27 train 42160, valid 5269, test 5271
+        early stopping, patience 10 reached
+05:59:27 fold fpr 0.0000, tpr 0.9986, fnr 0.0014, tnr 1.0000
+05:59:27 running fold 4...
+05:59:27 using closed world mode, stratified by label
+05:59:27 train 42160, valid 5269, test 5271
+        early stopping, patience 10 reached
+06:06:34 fold fpr 0.0007, tpr 0.9995, fnr 0.0005, tnr 0.9993
+06:06:34 running fold 5...
+06:06:34 using closed world mode, stratified by label
+06:06:34 train 42160, valid 5269, test 5271
+        early stopping, patience 10 reached
+06:11:45 fold fpr 0.0003, tpr 0.9982, fnr 0.0018, tnr 0.9997
+06:11:45 running fold 6...
+06:11:45 using closed world mode, stratified by label
+06:11:45 train 42160, valid 5269, test 5271
+        early stopping, patience 10 reached
+06:16:08 fold fpr 0.0000, tpr 0.9986, fnr 0.0014, tnr 1.0000
+06:16:08 running fold 7...
+06:16:08 using closed world mode, stratified by label
+06:16:08 train 42160, valid 5269, test 5271
+        early stopping, patience 10 reached
+06:20:19 fold fpr 0.0003, tpr 0.9991, fnr 0.0009, tnr 0.9997
+06:20:19 running fold 8...
+06:20:19 using closed world mode, stratified by label
+06:20:19 train 42160, valid 5269, test 5271
+        early stopping, patience 10 reached
+06:25:06 fold fpr 0.0000, tpr 0.9986, fnr 0.0014, tnr 1.0000
+06:25:06 running fold 9...
+06:25:06 using closed world mode, stratified by label
+06:25:06 train 42160, valid 5269, test 5271
+        early stopping, patience 10 reached
+06:30:42 fold fpr 0.0000, tpr 0.9991, fnr 0.0009, tnr 1.0000
+06:30:42 done, 10-fold cross validation results
+06:30:42 accuracy mean: 0.9994, std: 0.0002
+06:30:42 fpr mean: 0.0002, std: 0.0003
+06:30:44 loading datasets done, 72814 samples, 24491 from onion-only-hsdir.npz, 48323 from onion-no-hsdir.npz
+06:30:44 baseline accuracy 0.6636
+06:30:44 using DF with 512 cells
+06:30:44 training with 200 epochs, batch size 128, patience 10
+06:30:44 using NVIDIA GeForce RTX 3090
+06:30:44 we do 10-fold cross validation with a 8:1:1 split
+06:30:44 running fold 0...
+06:30:44 using closed world mode, stratified by label
+06:30:44 train 58250, valid 7281, test 7283
+        early stopping, patience 10 reached
+06:36:07 fold fpr 0.0019, tpr 0.9996, fnr 0.0004, tnr 0.9981
+06:36:07 running fold 1...
+06:36:07 using closed world mode, stratified by label
+06:36:07 train 58250, valid 7281, test 7283
+        early stopping, patience 10 reached
+06:44:26 fold fpr 0.0008, tpr 0.9992, fnr 0.0008, tnr 0.9992
+06:44:26 running fold 2...
+06:44:26 using closed world mode, stratified by label
+06:44:26 train 58250, valid 7281, test 7283
+        early stopping, patience 10 reached
+06:52:12 fold fpr 0.0013, tpr 1.0000, fnr 0.0000, tnr 0.9987
+06:52:12 running fold 3...
+06:52:12 using closed world mode, stratified by label
+06:52:12 train 58250, valid 7281, test 7283
+        early stopping, patience 10 reached
+06:57:00 fold fpr 0.0017, tpr 0.9996, fnr 0.0004, tnr 0.9983
+06:57:00 running fold 4...
+06:57:00 using closed world mode, stratified by label
+06:57:00 train 58250, valid 7281, test 7283
+        early stopping, patience 10 reached
+07:02:47 fold fpr 0.0013, tpr 1.0000, fnr 0.0000, tnr 0.9987
+07:02:47 running fold 5...
+07:02:47 using closed world mode, stratified by label
+07:02:47 train 58250, valid 7281, test 7283
+        early stopping, patience 10 reached
+07:12:14 fold fpr 0.0011, tpr 0.9996, fnr 0.0004, tnr 0.9989
+07:12:14 running fold 6...
+07:12:14 using closed world mode, stratified by label
+07:12:14 train 58250, valid 7281, test 7283
+        early stopping, patience 10 reached
+07:18:18 fold fpr 0.0013, tpr 0.9992, fnr 0.0008, tnr 0.9987
+07:18:18 running fold 7...
+07:18:18 using closed world mode, stratified by label
+07:18:18 train 58250, valid 7281, test 7283
+        early stopping, patience 10 reached
+07:26:45 fold fpr 0.0002, tpr 0.9996, fnr 0.0004, tnr 0.9998
+07:26:45 running fold 8...
+07:26:45 using closed world mode, stratified by label
+07:26:45 train 58250, valid 7281, test 7283
+        early stopping, patience 10 reached
+07:35:38 fold fpr 0.0011, tpr 0.9996, fnr 0.0004, tnr 0.9989
+07:35:38 running fold 9...
+07:35:38 using closed world mode, stratified by label
+07:35:38 train 58250, valid 7281, test 7283
+        early stopping, patience 10 reached
+07:42:33 fold fpr 0.0008, tpr 0.9988, fnr 0.0012, tnr 0.9992
+07:42:33 done, 10-fold cross validation results
+07:42:33 accuracy mean: 0.9991, std: 0.0003
+07:42:33 fpr mean: 0.0011, std: 0.0004
+07:42:35 loading datasets done, 72814 samples, 18592 from onion-only-intro.npz, 54222 from onion-no-intro.npz
+07:42:35 baseline accuracy 0.7447
+07:42:35 using DF with 512 cells
+07:42:35 training with 200 epochs, batch size 128, patience 10
+07:42:35 using NVIDIA GeForce RTX 3090
+07:42:35 we do 10-fold cross validation with a 8:1:1 split
+07:42:35 running fold 0...
+07:42:35 using closed world mode, stratified by label
+07:42:35 train 58250, valid 7281, test 7283
+        early stopping, patience 10 reached
+07:47:23 fold fpr 0.0000, tpr 0.9995, fnr 0.0005, tnr 1.0000
+07:47:23 running fold 1...
+07:47:23 using closed world mode, stratified by label
+07:47:23 train 58250, valid 7281, test 7283
+        early stopping, patience 10 reached
+07:53:52 fold fpr 0.0000, tpr 0.9984, fnr 0.0016, tnr 1.0000
+07:53:52 running fold 2...
+07:53:52 using closed world mode, stratified by label
+07:53:52 train 58250, valid 7281, test 7283
+        early stopping, patience 10 reached
+08:00:38 fold fpr 0.0002, tpr 0.9978, fnr 0.0022, tnr 0.9998
+08:00:38 running fold 3...
+08:00:38 using closed world mode, stratified by label
+08:00:38 train 58250, valid 7281, test 7283
+        early stopping, patience 10 reached
+08:08:39 fold fpr 0.0002, tpr 0.9978, fnr 0.0022, tnr 0.9998
+08:08:39 running fold 4...
+08:08:39 using closed world mode, stratified by label
+08:08:39 train 58250, valid 7281, test 7283
+        early stopping, patience 10 reached
+08:15:49 fold fpr 0.0006, tpr 0.9978, fnr 0.0022, tnr 0.9994
+08:15:49 running fold 5...
+08:15:49 using closed world mode, stratified by label
+08:15:49 train 58250, valid 7281, test 7283
+        early stopping, patience 10 reached
+08:20:53 fold fpr 0.0000, tpr 0.9978, fnr 0.0022, tnr 1.0000
+08:20:53 running fold 6...
+08:20:53 using closed world mode, stratified by label
+08:20:53 train 58250, valid 7281, test 7283
+        early stopping, patience 10 reached
+08:26:31 fold fpr 0.0004, tpr 0.9989, fnr 0.0011, tnr 0.9996
+08:26:31 running fold 7...
+08:26:31 using closed world mode, stratified by label
+08:26:31 train 58250, valid 7281, test 7283
+        early stopping, patience 10 reached
+08:32:51 fold fpr 0.0006, tpr 0.9995, fnr 0.0005, tnr 0.9994
+08:32:51 running fold 8...
+08:32:51 using closed world mode, stratified by label
+08:32:51 train 58250, valid 7281, test 7283
+        early stopping, patience 10 reached
+08:39:44 fold fpr 0.0002, tpr 0.9995, fnr 0.0005, tnr 0.9998
+08:39:44 running fold 9...
+08:39:44 using closed world mode, stratified by label
+08:39:44 train 58250, valid 7281, test 7283
+        early stopping, patience 10 reached
+08:45:30 fold fpr 0.0004, tpr 0.9989, fnr 0.0011, tnr 0.9996
+08:45:30 done, 10-fold cross validation results
+08:45:30 accuracy mean: 0.9995, std: 0.0002
+08:45:30 fpr mean: 0.0002, std: 0.0002
+08:45:33 loading datasets done, 72814 samples, 18400 from onion-only-rend.npz, 54414 from onion-no-rend.npz
+08:45:33 baseline accuracy 0.7473
+08:45:33 using DF with 512 cells
+08:45:33 training with 200 epochs, batch size 128, patience 10
+08:45:33 using NVIDIA GeForce RTX 3090
+08:45:33 we do 10-fold cross validation with a 8:1:1 split
+08:45:33 running fold 0...
+08:45:33 using closed world mode, stratified by label
+08:45:33 train 58251, valid 7281, test 7282
+        early stopping, patience 10 reached
+08:52:11 fold fpr 0.0002, tpr 0.9978, fnr 0.0022, tnr 0.9998
+08:52:11 running fold 1...
+08:52:11 using closed world mode, stratified by label
+08:52:11 train 58251, valid 7281, test 7282
+        early stopping, patience 10 reached
+08:56:33 fold fpr 0.0000, tpr 0.9989, fnr 0.0011, tnr 1.0000
+08:56:33 running fold 2...
+08:56:33 using closed world mode, stratified by label
+08:56:33 train 58251, valid 7281, test 7282
+        early stopping, patience 10 reached
+09:01:38 fold fpr 0.0000, tpr 0.9973, fnr 0.0027, tnr 1.0000
+09:01:38 running fold 3...
+09:01:38 using closed world mode, stratified by label
+09:01:38 train 58251, valid 7281, test 7282
+        early stopping, patience 10 reached
+09:05:52 fold fpr 0.0004, tpr 0.9995, fnr 0.0005, tnr 0.9996
+09:05:52 running fold 4...
+09:05:52 using closed world mode, stratified by label
+09:05:52 train 58251, valid 7281, test 7282
+        early stopping, patience 10 reached
+09:10:48 fold fpr 0.0002, tpr 0.9973, fnr 0.0027, tnr 0.9998
+09:10:48 running fold 5...
+09:10:48 using closed world mode, stratified by label
+09:10:48 train 58251, valid 7281, test 7282
+        early stopping, patience 10 reached
+09:17:09 fold fpr 0.0004, tpr 0.9973, fnr 0.0027, tnr 0.9996
+09:17:09 running fold 6...
+09:17:09 using closed world mode, stratified by label
+09:17:09 train 58251, valid 7281, test 7282
+        early stopping, patience 10 reached
+09:24:20 fold fpr 0.0000, tpr 0.9995, fnr 0.0005, tnr 1.0000
+09:24:20 running fold 7...
+09:24:20 using closed world mode, stratified by label
+09:24:20 train 58251, valid 7281, test 7282
+        early stopping, patience 10 reached
+09:29:25 fold fpr 0.0004, tpr 0.9973, fnr 0.0027, tnr 0.9996
+09:29:25 running fold 8...
+09:29:25 using closed world mode, stratified by label
+09:29:25 train 58251, valid 7281, test 7282
+        early stopping, patience 10 reached
+09:34:21 fold fpr 0.0004, tpr 0.9984, fnr 0.0016, tnr 0.9996
+09:34:21 running fold 9...
+09:34:21 using closed world mode, stratified by label
+09:34:21 train 58251, valid 7281, test 7282
+        early stopping, patience 10 reached
+09:37:36 fold fpr 0.0002, tpr 0.9984, fnr 0.0016, tnr 0.9998
+09:37:36 done, 10-fold cross validation results
+09:37:36 accuracy mean: 0.9994, std: 0.0003
+09:37:36 fpr mean: 0.0002, std: 0.0002
+
